@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Fly's Blog-首页{% endblock %}
+
+{% block main %}
+    {% for (article, article_cover) in ARTICLE.items() %}
+        <article itemscope="" itemtype="" class="card  wow fadeIn animated"
+                 data-wow-duration="1s" data-wow-offset="10"
+                 style="visibility: visible; animation-duration: 1s; animation-name: fadeIn;">
+            <div class="card-title">
+                <a href="{{ url_for('detail', article_id=article.id) }}"
+                   style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;">{{ article.title }}</a>
+            </div>
+            <div class="card-meta-top">
+                            <span class="card-meta-cate"><i class="iconfont icon-aria-category"></i> <a
+                                    href="{{ url_for('article_sort', key=article.type) }}"
+                                    style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;">{{ article.type }}</a></span>
+                <span class="card-meta-date"><i class="iconfont icon-aria-date"></i> {{ article.create_time }}</span>
+            </div>
+            <a href="{{ url_for('detail', article_id=article.id) }}"
+               style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;">
+                <div class="card-thumbnail lazyload"
+                     data-original="{{ article_cover.url }}"
+                     style="background: url({{ url_for('static', filename="images/loading.svg") }}) center center / 100% no-repeat;">
+                </div>
+            </a>
+            <div class="card-line"></div>
+            <ul class="card-meta-bottom">
+                <li class="card-meta-label card-meta-more"><a href="{{ url_for('detail', article_id=article.id) }}"
+                                                              title="Read More" target="_blank"
+                                                              style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                        class="iconfont icon-aria-more"></i><i class="iconfont icon-aria-more"></i></a></li>
+                <li class="card-meta-label card-meta-views card-meta-right"><i
+                        class="iconfont icon-aria-view"></i> {{ article.views }}
+                </li>
+                <li class="card-meta-label card-meta-comments card-meta-right"><i
+                        class="iconfont icon-aria-comment"></i> {{ article.comments }}
+                </li>
+                <!--li class="card-meta-label card-meta-likes"></li-->
+            </ul>
+        </article>
+
+        <div id="page-nav">
+        </div>
+    {% endfor %}
+
+    {#文章分页#}
+    {% if pagination %}
+        <div class="post-footer nextprev">
+            <div class="post-footer-box half previous"><a href="{% if pagination.has_prev %}
+                             {{ url_for('index', page=pagination.prev_num) }}
+                             {% else %}#{% endif %}" rel="prev">
+                <div class="post-footer-thumbnail"><img alt=""
+                                                        src="{{ url_for('static', filename='images/previous.jpg') }}"
+                                                        data-original="{{ url_for('static', filename='images/previous.jpg') }}"
+                                                        style=""></div>
+                <div class="post-footer-title"><h3>Previous World</h3></div>
+            </a></div>
+            <div class="post-footer-box half next"><a href="{% if pagination.has_next %}
+                                {{ url_for('index', page=pagination.next_num) }}
+                                {% else %}#{% endif %}">
+                <div class="post-footer-thumbnail"><img alt="" src="{{ url_for('static', filename='images/next.jpg') }}"
+                                                        data-original="{{ url_for('static', filename='images/next.jpg') }}"
+                                                        style=""></div>
+                <div class="post-footer-title"><h3>Next World</h3></div>
+            </a></div>
+        </div>
+    {% endif %}
+{% endblock %}

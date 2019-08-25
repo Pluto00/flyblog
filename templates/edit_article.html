@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Fly-blog-文章编辑</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="apple-mobile-web-app-title" content="Fly's Blog">
+    <link rel="icon" type="image/ico" href="{{ url_for('static', filename="images/favicon.ico") }}">
+    <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+          crossorigin="anonymous">
+    {#    <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.0/css/bootstrap-combined.min.css" rel="stylesheet">#}
+    <!-- 最新的 Bootstrap 核心 JavaScript 文件 -->
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"
+            integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+            crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="{{ url_for('static',filename='editormd/css/editormd.css') }}"/>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row-fluid">
+        <div class="span12">
+            <form method="POST" action="{{ url_for('edit_article', article_id=article.id) }}">
+                <fieldset>
+                    <legend>文章编辑</legend>
+                    <div class="form-group">
+                        <input type="text" name="title" class="form-control"
+                               value="{{ article.title }}" placeholder="Title input">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">文章类型</label>
+                        <select class="form-control" name="type">
+                            <option value="Code">代码</option>
+                            <option value="Daily">日常</option>
+                            <option value="Dream">梦想板</option>
+                            <option value="Me">我</option>
+                            <option value="Talk">留言</option>
+                            <option value="Friends">友人帐</option>
+                            <option value="Movies">影单</option>
+                            <option value="Lab">实验室</option>
+                            <option value="Time">时间轴</option>
+                        </select>
+                    </div>
+                    <div id="fancy-editormd" class="editormd">
+                        <textarea class="editormd-html-textarea"
+                                  name="fancy-editormd-markdown-code">{{ article.mark_code }}</textarea>
+                    </div>
+                    <div class="form-group">
+                        <button class="btn btn-primary">发布</button>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="{{ url_for('static',filename='editormd/examples/js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static',filename='editormd/editormd.js') }}"></script>
+<script src="{{ url_for('static',filename='editormd/editormd.min.js') }}"></script>
+<script type="text/javascript">
+    $(function () {
+        editormd("fancy-editormd", {
+            {#width: "100%",#}
+            height: 640,
+            syncScrolling: "single",
+            path: "{{ url_for('static',filename='editormd/lib/') }}",
+            {#emoji: true,                 // Emoji表情#}
+            tex: true,
+            codeFold: true,
+            tocm: true,         // Using [TOCM]
+            saveHTMLToTextarea: true,    // 保存 HTML 到 Textarea
+            searchReplace: true,
+            flowChart: true,             // 开启流程图支持，默认关闭
+            sequenceDiagram: true,     // 开启时序/序列图支持，默认关闭,
+
+            {#imageUpload : true,#}
+            {#imageFormats : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],#}
+            {#imageUploadURL : "examples/php/upload.php",#}
+        });
+    })
+</script>
+
+</body>
+</html>

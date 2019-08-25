@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Fly's Blog-{{ article.title }}{% endblock %}
+
+
+{% block main %}
+    <article class="post" itemscope="" itemtype="http://schema.org/BlogPosting">
+        <div class="post-header">
+            <h3 class="post-title">{{ article.title }}</h3>
+            <div class="post-meta">
+                <span class="post-meta-label post-meta-views">{{ article.views }}次阅读</span>
+                <span class="post-meta-label post-meta-cate"><a href="{{ url_for('article_sort', key=article.type) }}">{{ article.type }}</a></span>
+                <span class="post-meta-label post-meta-date">{{ article.create_time }}</span>
+            </div>
+        </div>
+        <div class="post-body">
+            <div class="post-content">
+                <div class="content" id="fancy-content">
+                    {{ article.content | safe }}
+                </div>
+            </div>
+
+            <div class="post-other">
+                <div class="post-reward"><a href="javascript:void(0);" onclick="togglePostOther(this);" no-pjax=""><i
+                        class="iconfont icon-aria-reward"></i></a>
+                    <ul>
+                        <li><img no-lazyload="" src="{{ url_for('static', filename='images/Alipay.png') }}">Alipay</li>
+                        <li><img no-lazyload="" src="{{ url_for('static', filename='images/Wechat.png') }}">Wechat</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="post-update"><i class="iconfont icon-aria-date"></i>&nbsp;最后一次更新于 {{ article.create_time }}
+            </div>
+        </div>
+    </article>
+
+    <div id="comments">
+        <span id="response">
+		<p>
+			<i class="iconfont icon-aria-comment"></i>
+			会说话就多说点		</p>
+	    </span>
+
+
+        <div class="comment-data">
+            {% if comments %}
+                <ol class="comment-list">
+                    {% for comment in comments %}
+                        <li id="li-comment" class="comment-body comment-parent">
+                        <div id={{ comment.id }}>
+                            <a class="comment-avatar" href="{% if comment.url %}{{ comment.url }}{% else %}#{% endif %}">
+                                <img class="avatar" src="{{ url_for('static', filename="images/loading.svg") }}"
+                                     alt="" width="120" height="120"
+                                     data-original="#">
+                            </a>
+                            <div class="comment-content">
+                                <div class="comment-text">
+                                    <p></p>
+                                    <p>{{ comment.comment }}</p>
+                                    <p></p>
+                                </div>
+                                <p class="comment-meta">By <span><a href="{% if comment.url %}{{ comment.url }}{% else %}#{% endif %}"
+                                                                    rel="external nofollow"
+                                                                    target="_blank">{{ comment.nickname }}</a></span>
+                                    at {{ comment.create_time }}. </p>
+                            </div>
+                        </div><!-- 单条评论者信息及内容 -->
+                    {% endfor %}
+                    </li>
+                </ol>
+            {% endif %}
+
+        </div>
+        <div id="page-nav">
+        </div>
+
+        <div id="respond-post" class="respond">
+        <span id="new-response">
+			<i class="iconfont icon-aria-write"></i> 添加新评论 </span>
+            <!-- New Comments begin -->
+            <form method="POST" action="{{ url_for('add_comment', article_id=article.id) }}" id="comment-form"
+                  role="form">
+                <div id="comment-info">
+                    <p>
+                        <img no-lazyload="" id="comment-avatar"
+                             src="{{ url_for('static', filename="images/loading.svg") }}">
+                    </p>
+                    <p class="comment-input">
+                        <label for="author" class="required">
+                            <i class="iconfont icon-aria-username"></i>
+                        </label>
+                        <input placeholder="（必填）昵称" type="text" name="author" id="author" class="text" value=""
+                               required="">
+                    </p>
+                    <p class="comment-input">
+                        <label for="mail" class="required">
+                            <i class="iconfont icon-aria-email"></i>
+                        </label>
+                        <input placeholder="（必填）邮箱" type="email" name="mail" id="mail" class="text" value=""
+                               required="">
+                    </p>
+                    <p class="comment-input">
+                        <label for="url">
+                            <i class="iconfont icon-aria-link"></i>
+                        </label>
+                        <input type="url" name="url" id="url" class="text" placeholder="（选填）网站" value="">
+                    </p>
+                </div>
+                <p>
+                    <label for="textarea" class="required"></label>
+                    <textarea rows="8" cols="50" name="text" id="textarea" class="textarea"
+                              placeholder="期待大佬的精彩发言 U•ェ•*U "></textarea>
+                </p>
+                <center>
+                    <button type="submit" class="submit"><i class="iconfont icon-aria-submit"></i> 发射</button>
+                </center>
+            </form>
+        </div>
+    </div>
+{% endblock %}

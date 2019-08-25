@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="zh-cn" class="no-js">
+
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+    <meta name="renderer" content="webkit">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="white">
+    <meta name="apple-mobile-web-app-title" content="Fly's Blog">
+    <link rel="icon" type="image/ico" href="{{ url_for('static', filename="images/favicon.ico") }}">
+
+    <!-- 使用url_for函数转换相关路径 -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='editormd/css/editormd.min.css') }}"/>
+    <link rel="stylesheet" href="{{ url_for('static', filename='Aria/assets/css/style.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Aria/assets/css/jquery.fancybox.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Aria/assets/css/animate.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='Aria/assets/css/iconfont.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='live2d/css/live2d.css') }}">
+    {% block css %} {% endblock %}
+
+    <script src="{{ url_for('static', filename='Aria/assets/js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='Aria/assets/js/jquery.pjax.min.js') }}"></script>
+    <!--[if lt IE 9]>
+    <script src="http://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+    <script src="http://cdn.staticfile.org/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+
+<body style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/normal.cur') }}'), default;">
+<script>window.THEME_CONFIG = {
+    "THEME_VERSION": "1.9.1",
+    "SITE_URL": "http:\/\/127.0.0.1:5000",
+    "THEME_URL": "http:\/\/127.0.0.1:5000\/static\/Aria",
+    "SHOW_HITOKOTO": true,
+    "SHOW_QRCODE": true,
+    "SHOW_REWARD": true,
+    "ENABLE_PJAX": true,
+    "ENABLE_AJAX_COMMENT": false,
+    "ENABLE_FANCYBOX": true,
+    "ENABLE_LAZYLOAD": true,
+    "ENABLE_MATHJAX": true,
+    "OWO_JSON": "http:\/\/127.0.0.1:5000\/static\/Aria\/assets\/OwO\/OwO.json",
+    "HITOKOTO_ORIGIN": "https:\/\/api.gushi.ci\/all.txt",
+    "GRAVATAR_PREFIX": "https:\/\/cn.gravatar.com\/avatar\/"
+}</script>
+<div id="wrapper" onclick="toggleNav();"></div>
+<!--[if lt IE 8]>
+    <div class="browsehappy" role="dialog">当前网页 <strong>不支持</strong> 你正在使用的浏览器. 为了正常的访问, 请 <a href="http://browsehappy.com/">升级你的浏览器</a>.</div>
+	<![endif]-->
+<!--导航条-->
+<div id="nav-menu" role="navigation" class="headroom headroom--not-bottom headroom--top">
+    <div id="nav-left">
+        <a href="{{ url_for('index') }}"
+           style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><img
+                id="site-avatar" no-lazyload="" src="{{ url_for('static', filename="images/avatar.jpeg") }}"
+                style="height: 35px; width: 35px; margin: 14.5px 5px 0px 0px;">
+            Fly's Blog</a>
+    </div>
+    <div id="nav-right">
+        <ul class="nav-right-list">
+            <li class="nav-right-item"><a href="{{ url_for('index') }}"
+                                          style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                    class="iconfont icon-aria-home"></i>首页</a></li>
+            <li class="nav-right-item"><a href="{{ url_for('detail', article_id=7) }}"
+                                          style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                    class="iconfont icon-aria-archives"></i>归档</a>
+                <ul class="nav-sub">
+                    <li class="sub-item"><a href="{{ url_for('article_sort', key='Daily') }}"
+                                            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                            class="iconfont icon-aria-book"></i>日常</a></li>
+                    <li class="sub-item"><a href="{{ url_for('article_sort', key='Code') }}"
+                                            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                            class="iconfont icon-aria-code"></i>代码</a></li>
+                    <li class="sub-item"><a href="{{ url_for('article_sort', key='Study') }}"
+                                            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                            class="iconfont icon-aria-write"></i>学习</a></li>
+                </ul>
+            </li>
+            <li class="nav-right-item"><a href="{{ url_for('detail', article_id=2) }}"
+                                          style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                    class="iconfont icon-aria-friends"></i>友人帐</a></li>
+            <li class="nav-right-item"><a href="{{ url_for('detail', article_id=3) }}"
+                                          style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                    class="iconfont icon-aria-menu"></i>影单</a></li>
+            <li class="nav-right-item"><a href="{{ url_for('detail', article_id=4) }}"
+                                          style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                    class="iconfont icon-aria-home"></i>实验室</a>
+                <ul class="nav-sub">
+                    <li class="sub-item"><a href="https://sm.ms/home/"
+                                            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                            class="iconfont icon-aria-picture"></i>图床</a></li>
+                    <li class="sub-item"><a href="https://github.com/Pluto00"
+                                            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                            class="iconfont icon-aria-github"></i>Github</a></li>
+                </ul>
+            </li>
+            <li class="nav-right-item"><a href="{{ url_for('detail', article_id=5) }}"
+                                          style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                    class="iconfont icon-aria-guestbook"></i>留言</a></li>
+            <li class="nav-right-item"><a href="{{ url_for('detail', article_id=6) }}"
+                                          style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                    class="iconfont icon-aria-about"></i>我</a>
+                <ul class="nav-sub">
+                    <li class="sub-item"><a href="{{ url_for('detail', article_id=1) }}"
+                                            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                            class="iconfont icon-aria-submit"></i>梦想板</a></li>
+                    <li class="sub-item"><a href="{{ url_for('detail', article_id=7) }}"
+                                            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                            class="iconfont icon-aria-date"></i>时间轴</a></li>
+                    <li class="sub-item"><a href="https://c.y.qq.com/base/fcgi-bin/u?__=WtQo5O9"
+                                            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"><i
+                            class="iconfont icon-aria-music"></i>歌单</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div id="nav-btns">
+            <i class="iconfont icon-aria-menu" id="nav-menu-btn" onclick="toggleNav();"></i>
+            <i class="iconfont icon-aria-search" id="nav-search-btn"></i>
+        </div>
+    </div>
+</div>
+<!--搜索框-->
+<div id="search-box" class="animated" style="background: #fff">
+    <span class="close"><i class="iconfont icon-aria-close"></i></span>
+    <form id="search" method="GET" action="{{ url_for('search') }}" role="search">
+        <input type="text" name="s" id="search-text" placeholder="想要看什么？">
+        <button type="submit" id="search-button"
+                style="background: url({{ url_for('static', filename="Aria/assets/img/search.png") }}) center center no-repeat;background-size: cover;"></button>
+    </form>
+</div>
+<!--封面-->
+<div id="pjax-container">
+    <style>#background {
+        width: 100%;
+        height: 100%;
+        background: url({{ page_cover.url }}) center center no-repeat;
+        background-size: cover;
+        z-index: -1;
+        position: relative;
+    }</style>
+    <header id="header" class="clearfix animated fadeInDown slideInDown">
+        <div id="site-meta">
+            <h1 id="site-name">Fly's Blog</h1>
+            <h2 id="site-description">孤独到死是一个天才最好的归宿，毕竟他所处的那个时代配不上他</h2>
+        </div>
+        <div id="background"></div>
+    </header><!-- end #header -->
+    <div id="body" class="animated fadeIn">
+        <div class="container">
+            <div class="row">
+                <div id="main" class="col-mb-12 col-8 col-offset-2">
+                    <!--文章列表-->
+                    {% block main %}{% endblock %}
+                </div><!-- end #main-->
+            </div><!-- end .row -->
+        </div><!-- end .container -->
+    </div><!-- end #body -->
+</div><!-- end #pjax-container -->
+<!--页脚-->
+<footer id="footer" role="contentinfo">
+    <p id="hitokoto"></p>
+    <p id="footer-info">© <span>2018 - 2019</span><span><a href="{{ url_for('index') }}"
+                                                           style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"> • Fly's Blog</a></span><span><a
+            href="http://www.typecho.org/" title="念念不忘，必有回响。" target="_blank"
+            style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"> • Typecho</a></span><span>
+        <a href="https://eriri.ink/archives/Typecho-Theme-Aria.html" title="Typecho-Theme-Aria Ver 1.9.0 by Siphils"
+           target="_blank"
+           style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;"> • Aria</a></span>
+</footer><!-- end #footer -->
+<!--js引入-->
+<a href="http://simpleso.cn:801/" target="_blank"
+   style="cursor: url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer;">
+    <script src="{{ url_for('static', filename='Aria/assets/js/jquery.fancybox.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='Aria/assets/js/jquery.lazyload.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='Aria/assets/js/functions.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='Aria/assets/js/commentTyping.js') }}"></script>
+    <script src="{{ url_for('static', filename='Aria/assets/js/main.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='editormd/lib/marked.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='editormd/lib/prettify.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='editormd/lib/flowchart.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='editormd/lib/jquery.flowchart.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='editormd/lib/raphael.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='editormd/lib/underscore.min.js') }}"></script>
+    <script type="text/javascript"
+            src="{{ url_for('static', filename='editormd/lib/sequence-diagram.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='editormd/editormd.js') }}"></script>
+    <script type="text/javascript">
+        editormd.markdownToHTML("fancy-content");
+    </script>
+    {% block js %}{% endblock %}
+    <!--打字特效-->
+    <script>(function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = '{{ url_for('static', filename='Aria/assets/js/push.js') }}';
+        } else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();</script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?6918a3ba534ad6309bd3b9b8e3e66cd8";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
+    <canvas id="fireworks"
+            style="position: fixed; left: 0px; top: 0px; pointer-events: none; width: 1536px; height: 723px;"
+            width="3072" height="1446"></canvas>
+    <script type="text/javascript" src="{{ url_for('static', filename='Aria/assets/js/anime.min.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='Aria/assets/js/fireworks.js') }}"></script>
+    <script>
+        $("body").css("cursor", "url('{{ url_for('static', filename='Aria/assets/cur/normal.cur') }}'), default");
+        $("a").css("cursor", "url('{{ url_for('static', filename='Aria/assets/cur/link.cur') }}'), pointer");
+    </script>
+</a>
+
+<!--加一个js动态背景-->
+<script>
+    !function () {
+        function n(n, e, t) {
+            return n.getAttribute(e) || t
+        }
+
+        function e(n) {
+            return document.getElementsByTagName(n)
+        }
+
+        function t() {
+            var t = e("script"), o = t.length, i = t[o - 1];
+            return {
+                l: o,
+                z: n(i, "zIndex", -1),
+                o: n(i, "opacity", .5),
+                c: n(i, "color", "5,184,228"),
+                n: n(i, "count", 42)
+            }
+        }
+
+        function o() {
+            a = m.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth, c = m.height = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight
+        }
+
+        function i() {
+            r.clearRect(0, 0, a, c);
+            var n, e, t, o, m, l;
+            s.forEach(function (i, x) {
+                for (i.x += i.xa, i.y += i.ya, i.xa *= i.x > a || i.x < 0 ? -1 : 1, i.ya *= i.y > c || i.y < 0 ? -1 : 1, r.fillRect(i.x - .5, i.y - .5, 1, 1), e = x + 1; e < u.length; e++) n = u[e], null !== n.x && null !== n.y && (o = i.x - n.x, m = i.y - n.y, l = o * o + m * m, l < n.max && (n === y && l >= n.max / 2 && (i.x -= .03 * o, i.y -= .03 * m), t = (n.max - l) / n.max, r.beginPath(), r.lineWidth = t / 2, r.strokeStyle = "rgba(" + d.c + "," + (t + .2) + ")", r.moveTo(i.x, i.y), r.lineTo(n.x, n.y), r.stroke()))
+            }), x(i)
+        }
+
+        var a, c, u, m = document.createElement("canvas"), d = t(), l = "c_n" + d.l, r = m.getContext("2d"),
+            x = window.requestAnimationFrame || window.webkitRequestAnimationFrame || window.mozRequestAnimationFrame || window.oRequestAnimationFrame || window.msRequestAnimationFrame || function (n) {
+                window.setTimeout(n, 1e3 / 45)
+            }, w = Math.random, y = {x: null, y: null, max: 2e4};
+        m.id = l, m.style.cssText = "position:fixed;top:0;left:0;z-index:" + d.z + ";opacity:" + d.o, e("body")[0].appendChild(m), o(), window.onresize = o, window.onmousemove = function (n) {
+            n = n || window.event, y.x = n.clientX, y.y = n.clientY
+        }, window.onmouseout = function () {
+            y.x = null, y.y = null
+        };
+        for (var s = [], f = 0; d.n > f; f++) {
+            var h = w() * a, g = w() * c, v = 2 * w() - 1, p = 2 * w() - 1;
+            s.push({x: h, y: g, xa: v, ya: p, max: 6e3})
+        }
+        u = s.concat([y]), setTimeout(function () {
+            i()
+        }, 100)
+    }();
+
+
+</script>
+<!--看看看板娘-->
+<div>
+    <div id="landlord">
+        <div class="message" style="opacity:0"></div>
+        <canvas id="live2d" width="280" height="250" class="live2d"></canvas>
+        <div class="hide-button">隐藏</div>
+    </div>
+    <script type="text/javascript">
+        var message_Path = '/static/live2d/'
+        var home_Path = 'https://127.0.0.1:5000/'  //此处修改为你的域名，必须带斜杠
+    </script>
+    <script type="text/javascript" src="{{ url_for('static',filename='live2d/js/live2d.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='live2d/js/message.js') }}"></script>
+    <script type="text/javascript">
+        loadlive2d("live2d", "{{ url_for('static',filename='live2d/model/tia/model.json') }}");
+    </script>
+</div>
+</body>
+
+</html>
