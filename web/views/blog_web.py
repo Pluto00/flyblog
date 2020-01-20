@@ -1,10 +1,11 @@
 from flask import request, redirect, url_for, render_template
-from web import app, db
+from web import app, db, ip_limit
 from web.models import Article, Comment, Picture
 from sqlalchemy.sql.expression import func
 
 
 @app.route('/')
+@ip_limit.limiter('index', 100)
 def index():
     page = request.args.get('page', 1, type=int)
     pagination = Article.query.filter(Article.id > 10).order_by(-Article.id).paginate(page, per_page=10,
@@ -25,6 +26,7 @@ def article_sort(key):
 
 
 @app.route('/detail/<int:article_id>/')
+@ip_limit.limiter('detail', 100)
 def detail(article_id):
     article_model = Article.query.filter(Article.id == article_id).first()
     article_model.views += 1
@@ -35,6 +37,7 @@ def detail(article_id):
 
 
 @app.route('/comment/<int:article_id>/', methods=['POST'])
+@ip_limit.limiter('comment', 10)
 def add_comment(article_id):
     article = Article.query.filter(Article.id == article_id).first()
     article.comments += 1

@@ -27,7 +27,7 @@
                 <div class="page-header">
                     <h1>Image Upload</h1> 5 MB max per file. 10 files max per request.
                 </div>
-                <form method="POST" action="{{ url_for('upload_picture', token=token) }}">
+                <form method="POST" action="{{ url_for('upload_picture') }}">
                     <div class="form-group">
                         <input type="text" name="url"  placeholder="Image url input" class="form-control">
                     </div>

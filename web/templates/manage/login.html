@@ -1,0 +1,28 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+{% import "bootstrap/utils.html" as util %}
+
+{% block metas %}
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport"/>
+{% endblock %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block navbar %}
+    {% if navBar %}
+        {{ navBar.render() }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h2 style="text-align: center">{{ title }}</h2>
+
+    <div class="container" style="margin-top: 3em">
+        {{ util.flashed_messages(dismissible=True) }}
+        {{ wtf.quick_form(form, form_type='horizontal',button_map={'submit_button': 'primary'}) }}
+    </div>
+
+{% endblock %}

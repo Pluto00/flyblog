@@ -1,6 +1,7 @@
 import os
 
 # redis
+redis_enable = True
 redis_host = 'localhost'
 redis_port = 6379
 redis_pass = ''
@@ -19,5 +20,6 @@ app_port = 5000
 debug_model = True
 secret_key = os.urandom(24)
 
-# 管理界面密码
-admin_pass = "xxxxxxxx"
+# 管理账号密码
+admin_name = "admin"
+admin_pwd = "admin"
