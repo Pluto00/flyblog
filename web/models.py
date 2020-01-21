@@ -1,7 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-
-db = SQLAlchemy()
+from web import db
 
 
 class Article(db.Model):
@@ -16,6 +14,15 @@ class Article(db.Model):
     create_time = db.Column(db.DateTime, default=datetime.now)
     views = db.Column(db.Integer, default=0)
     comments = db.Column(db.Integer, default=0)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "type": self.type,
+            "create_time": self.create_time,
+            "views": self.views,
+        }
 
 
 class Comment(db.Model):
