@@ -15,16 +15,6 @@ class Article(db.Model):
     views = db.Column(db.Integer, default=0)
     comments = db.Column(db.Integer, default=0)
 
-    def to_dict(self):
-        return {
-            "id": self.id,
-            "title": self.title,
-            "type": self.type,
-            "create_time": self.create_time,
-            "views": self.views,
-        }
-
-
 class Comment(db.Model):
     __tablename__ = 'comment'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)

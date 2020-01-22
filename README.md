@@ -8,6 +8,8 @@ Usage
 
 - pip install -r requirements.txt安装所需库
 
+- 数据库迁移
+
 - 运行app.py文件即可
 
 
