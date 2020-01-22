@@ -97,34 +97,34 @@
                                     <div class="span12">
                                         <div class="pagination-centered">
                                             <ul class="pagination">
-                                                    <li{% if not article_pagination.has_prev %}
-                                                        class="disabled"{% endif %}>
-                                                        <a href="{% if article_pagination.has_prev %}
+                                                <li{% if not article_pagination.has_prev %}
+                                                    class="disabled"{% endif %}>
+                                                    <a href="{% if article_pagination.has_prev %}
                              {{ url_for('admin', page=article_pagination.prev_num) }}
                              {% else %}#{% endif %}">«</a>
-                                                    </li>
-                                                    {% for p in article_pagination.iter_pages() %}
-                                                        {% if p %}
-                                                            {% if p == article_pagination.page %}
-                                                                <li class="active">
-                                                                    <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
-                                                                </li>
-                                                            {% else %}
-                                                                <li>
-                                                                    <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
-                                                                </li>
-                                                            {% endif %}
+                                                </li>
+                                                {% for p in article_pagination.iter_pages() %}
+                                                    {% if p %}
+                                                        {% if p == article_pagination.page %}
+                                                            <li class="active">
+                                                                <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
+                                                            </li>
                                                         {% else %}
-                                                            <li class="disabled"><a href="#">…</a></li>
+                                                            <li>
+                                                                <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
+                                                            </li>
                                                         {% endif %}
-                                                    {% endfor %}
-                                                    <li{% if not article_pagination.has_next %}
-                                                        class="disabled"{% endif %}>
-                                                        <a href="{% if article_pagination.has_next %}
+                                                    {% else %}
+                                                        <li class="disabled"><a href="#">…</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li{% if not article_pagination.has_next %}
+                                                    class="disabled"{% endif %}>
+                                                    <a href="{% if article_pagination.has_next %}
                                 {{ url_for('admin', page=article_pagination.next_num) }}
                                 {% else %}#{% endif %}">»</a>
-                                                    </li>
-                                                </ul>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -145,7 +145,9 @@
                                     <th class="sorting_disabled" rowspan="1" colspan="1">姓名</th>
                                     <th class="sorting_disabled" rowspan="1" colspan="1">邮箱</th>
                                     <th class="sorting_disabled" rowspan="1" colspan="1">网站</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1">内容</th>
                                     <th class="sorting_disabled" rowspan="1" colspan="1">发布时间</th>
+                                    <th class="sorting_disabled" rowspan="1" colspan="1">审核</th>
                                     <th class="sorting_disabled" rowspan="1" colspan="1">删除</th>
                                 </tr>
                                 </thead>
@@ -161,6 +163,16 @@
                                         <td>{{ comment.mail }}</td>
                                         <td><a href="{{ comment.url }}" target="_blank">{{ comment.url }}</a></td>
                                         <td>{{ comment.create_time }}</td>
+                                        <td>{{ comment.comment }}</td>
+                                        <td>
+                                            {% if comment.status==0 %}
+                                                <a href="{{ url_for('accept_comment', comment_id=comment.id) }}"
+                                                   data-id="18259823">通过</a>
+                                            {% else %}
+                                                已通过
+                                            {% endif %}
+
+                                        </td>
                                         <td>
                                             <a href="{{ url_for('delete_comment', comment_id=comment.id) }}"
                                                data-id="18259823">DELETE</a>
@@ -177,35 +189,35 @@
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="pagination-centered">
-                                                <ul class="pagination">
-                                                    <li{% if not comment_pagination.has_prev %}
-                                                        class="disabled"{% endif %}>
-                                                        <a href="{% if comment_pagination.has_prev %}
+                                            <ul class="pagination">
+                                                <li{% if not comment_pagination.has_prev %}
+                                                    class="disabled"{% endif %}>
+                                                    <a href="{% if comment_pagination.has_prev %}
                              {{ url_for('admin', page=comment_pagination.prev_num) }}
                              {% else %}#{% endif %}">«</a>
-                                                    </li>
-                                                    {% for p in comment_pagination.iter_pages() %}
-                                                        {% if p %}
-                                                            {% if p == comment_pagination.page %}
-                                                                <li class="active">
-                                                                    <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
-                                                                </li>
-                                                            {% else %}
-                                                                <li>
-                                                                    <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
-                                                                </li>
-                                                            {% endif %}
+                                                </li>
+                                                {% for p in comment_pagination.iter_pages() %}
+                                                    {% if p %}
+                                                        {% if p == comment_pagination.page %}
+                                                            <li class="active">
+                                                                <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
+                                                            </li>
                                                         {% else %}
-                                                            <li class="disabled"><a href="#">…</a></li>
+                                                            <li>
+                                                                <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
+                                                            </li>
                                                         {% endif %}
-                                                    {% endfor %}
-                                                    <li{% if not comment_pagination.has_next %}
-                                                        class="disabled"{% endif %}>
-                                                        <a href="{% if comment_pagination.has_next %}
+                                                    {% else %}
+                                                        <li class="disabled"><a href="#">…</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li{% if not comment_pagination.has_next %}
+                                                    class="disabled"{% endif %}>
+                                                    <a href="{% if comment_pagination.has_next %}
                                 {{ url_for('admin', page=comment_pagination.next_num) }}
                                 {% else %}#{% endif %}">»</a>
-                                                    </li>
-                                                </ul>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -250,35 +262,35 @@
                                 <div class="row-fluid">
                                     <div class="span12">
                                         <div class="pagination-centered">
-                                                <ul class="pagination">
-                                                    <li{% if not picture_pagination.has_prev %}
-                                                        class="disabled"{% endif %}>
-                                                        <a href="{% if picture_pagination.has_prev %}
+                                            <ul class="pagination">
+                                                <li{% if not picture_pagination.has_prev %}
+                                                    class="disabled"{% endif %}>
+                                                    <a href="{% if picture_pagination.has_prev %}
                              {{ url_for('admin', page=picture_pagination.prev_num) }}
                              {% else %}#{% endif %}">«</a>
-                                                    </li>
-                                                    {% for p in picture_pagination.iter_pages() %}
-                                                        {% if p %}
-                                                            {% if p == picture_pagination.page %}
-                                                                <li class="active">
-                                                                    <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
-                                                                </li>
-                                                            {% else %}
-                                                                <li>
-                                                                    <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
-                                                                </li>
-                                                            {% endif %}
+                                                </li>
+                                                {% for p in picture_pagination.iter_pages() %}
+                                                    {% if p %}
+                                                        {% if p == picture_pagination.page %}
+                                                            <li class="active">
+                                                                <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
+                                                            </li>
                                                         {% else %}
-                                                            <li class="disabled"><a href="#">…</a></li>
+                                                            <li>
+                                                                <a href="{{ url_for('admin', page = p) }}">{{ p }}</a>
+                                                            </li>
                                                         {% endif %}
-                                                    {% endfor %}
-                                                    <li{% if not picture_pagination.has_next %}
-                                                        class="disabled"{% endif %}>
-                                                        <a href="{% if picture_pagination.has_next %}
+                                                    {% else %}
+                                                        <li class="disabled"><a href="#">…</a></li>
+                                                    {% endif %}
+                                                {% endfor %}
+                                                <li{% if not picture_pagination.has_next %}
+                                                    class="disabled"{% endif %}>
+                                                    <a href="{% if picture_pagination.has_next %}
                                 {{ url_for('admin', page=picture_pagination.next_num) }}
                                 {% else %}#{% endif %}">»</a>
-                                                    </li>
-                                                </ul>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>

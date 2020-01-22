@@ -33,6 +33,7 @@ class Comment(db.Model):
     nickname = db.Column(db.String(16), nullable=False)
     mail = db.Column(db.String(32), nullable=False)
     url = db.Column(db.String(64))
+    status = db.Column(db.Integer, nullable=False)
 
     article_id = db.Column(db.Integer, db.ForeignKey('article.id'))
     article = db.relationship('Article', backref=db.backref('comment'))

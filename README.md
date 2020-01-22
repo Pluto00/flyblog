@@ -1,6 +1,6 @@
 # flyblog
 
-[项目预览](https://flyblog.top/)
+[项目预览](http://flyblog.top/)
 
 Usage
 
@@ -8,6 +8,6 @@ Usage
 
 - pip install -r requirements.txt安装所需库
 
-- 运行main.py文件即可
+- 运行app.py文件即可
 
 

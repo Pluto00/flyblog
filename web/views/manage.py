@@ -2,7 +2,7 @@ from flask import request, redirect, url_for, render_template, session, flash, a
 from flask_wtf import FlaskForm
 from wtforms import SubmitField, StringField, PasswordField, validators
 
-from web import app, db
+from web import app, db, r, r_web_html
 from web.models import Article, Comment, Picture
 from web.Environment import admin_name, admin_pwd
 from functools import wraps
@@ -20,6 +20,7 @@ def login():
     if form.validate_on_submit():
         if form.name.data == admin_name and form.pwd.data == admin_pwd:
             session['ManagerLoginStatus'] = True
+            r.delete(r_web_html)
             return redirect(url_for('.admin', ))
         else:
             flash("请填写正确的账号和密码")
@@ -32,6 +33,7 @@ def login_required(func):
         if not session.get("ManagerLoginStatus"):
             abort(404)
         return func(*args, **kwargs)
+
     return wrapper
 
 
@@ -49,6 +51,17 @@ def admin():
                                articles=article_pagination.items, article_pagination=article_pagination,
                                pictures=picture_pagination.items, picture_pagination=picture_pagination,
                                comments=comment_pagination.items, comment_pagination=comment_pagination)
+
+
+@app.route('/accept_comment/')
+@login_required
+def accept_comment():
+    comment = Comment.query.filter(Comment.id == request.args.get("comment_id")).first()
+    if comment:
+        comment.status = 1
+        comment.article.comments += 1
+        db.session.commit()
+    return redirect(url_for('admin'))
 
 
 @app.route('/delete_article/')
@@ -72,6 +85,8 @@ def delete_comment():
     comment = Comment.query.filter(Comment.id == comment_id).first()
     if comment:
         db.session.delete(comment)
+    if comment.status == 1:
+        comment.article.comments -= 1
     db.session.commit()
     return redirect(url_for('admin'))
 
@@ -117,6 +132,7 @@ def add_article():
                           type=request.form.get('type'))
         db.session.add(article)
         db.session.commit()
+
         return redirect(url_for('index'))
 
 

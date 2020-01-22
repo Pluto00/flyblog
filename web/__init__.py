@@ -26,6 +26,8 @@ migrate = Migrate(app, db)
 
 # redis init
 r = redis.Redis(host=Environment.redis_host, port=Environment.redis_port, password=Environment.redis_pass)
+r_web_html = "FlyBlogWebHtml"  # 网页html缓存key
+
 # Session init
 app.permanent_session_lifetime = timedelta(hours=1)
 if Environment.redis_enable:
